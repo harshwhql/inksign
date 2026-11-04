@@ -5,8 +5,7 @@ import { defineConfig } from 'vitest/config'
  * `fileURLToPath` rather than `new URL(...).pathname`: on Windows the latter
  * yields a leading slash and percent-encoded spaces, which no resolver accepts.
  */
-const resolvePath = (relative: string): string =>
-  fileURLToPath(new URL(relative, import.meta.url))
+const resolvePath = (relative: string): string => fileURLToPath(new URL(relative, import.meta.url))
 
 export default defineConfig({
   test: {

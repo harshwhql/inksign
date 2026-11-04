@@ -1,31 +1,31 @@
 import type { DocumentSource, FieldId, PageSize } from '@inksign/core'
 import {
-  PageRenderer,
-  type LoadOptions,
-  type LoadedDocument,
   createViewport,
   fieldToCss,
+  type LoadedDocument,
+  type LoadOptions,
   loadDocument,
+  PageRenderer,
 } from '@inksign/pdf'
 import {
   anchoredScroll,
   computeLayout,
+  type DocumentLayout,
   fitWidthScale,
   nextZoom,
+  type PageLayout,
   previousZoom,
   visibleRange,
-  type DocumentLayout,
-  type PageLayout,
 } from '@inksign/ui'
 import {
   memo,
+  type ReactNode,
   useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
   useState,
-  type ReactNode,
 } from 'react'
 import { useInkSign } from './context.js'
 import { useElementSize, usePageFields } from './hooks.js'
@@ -57,6 +57,9 @@ export function useDocument(
   const optionsRef = useRef(options)
   optionsRef.current = options
 
+  // Keyed on `key`, a stable identity for the source, because the source
+  // object is rebuilt on every render and depending on it would reload the PDF.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: keyed on a stable digest of `source` instead of the object identity
   useEffect(() => {
     if (!source) {
       setState({ document: undefined, renderer: undefined, loading: false, error: undefined })
@@ -350,7 +353,13 @@ const PageView = memo(function PageView({
     >
       <canvas
         ref={canvasRef}
+        // The rendered page is a picture of text that a screen reader cannot
+        // read, so it is hidden rather than announced as an unlabelled image.
+        // The fields layered over it are real inputs with real labels, and a
+        // selectable text layer is on the roadmap. tabIndex -1 keeps the
+        // canvas out of the tab order, which aria-hidden requires.
         aria-hidden="true"
+        tabIndex={-1}
         style={{
           display: 'block',
           width: '100%',

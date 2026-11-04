@@ -2,11 +2,11 @@ import type { InkSignature } from '@inksign/core'
 import {
   getStrokeOutline,
   getStrokePath,
+  type InputPoint,
   normalizeStrokes,
   outlineToPath,
-  strokesBounds,
-  type InputPoint,
   type StrokeOptions,
+  strokesBounds,
 } from './stroke.js'
 
 /**
@@ -197,9 +197,7 @@ export class SignaturePad {
     const { width, height } = this.size()
     const trim = options.trim ?? true
 
-    const source = trim
-      ? normalizeStrokes(this.strokes, { width, height }).strokes
-      : this.strokes
+    const source = trim ? normalizeStrokes(this.strokes, { width, height }).strokes : this.strokes
 
     const paths = source.map((stroke) =>
       getStrokePath(stroke, { ...this.strokeOptions(), last: true }),

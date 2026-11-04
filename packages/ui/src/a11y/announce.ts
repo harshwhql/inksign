@@ -207,8 +207,7 @@ export function trapFocus(container: HTMLElement): () => void {
 
   // Move focus in. Prefer an element marked for it, so a dialog can direct
   // focus at its signature pad rather than its close button.
-  const initial =
-    container.querySelector<HTMLElement>('[data-inksign-autofocus]') ?? focusable()[0]
+  const initial = container.querySelector<HTMLElement>('[data-inksign-autofocus]') ?? focusable()[0]
   initial?.focus()
 
   return () => {
@@ -247,10 +246,7 @@ export interface FieldNavigation {
  * cannot use a pointer gets through a long document without tabbing past
  * every link in the page.
  */
-export function bindFieldNavigation(
-  target: HTMLElement,
-  navigation: FieldNavigation,
-): () => void {
+export function bindFieldNavigation(target: HTMLElement, navigation: FieldNavigation): () => void {
   const onKeyDown = (event: KeyboardEvent): void => {
     // Never hijack keys while someone is typing into a field.
     const active = target.ownerDocument.activeElement

@@ -139,14 +139,7 @@ export interface AnchorPlacement {
 export interface FieldCondition {
   /** Field whose value gates this one. */
   whenField: FieldId
-  operator:
-    | 'equals'
-    | 'not_equals'
-    | 'filled'
-    | 'empty'
-    | 'greater_than'
-    | 'less_than'
-    | 'includes'
+  operator: 'equals' | 'not_equals' | 'filled' | 'empty' | 'greater_than' | 'less_than' | 'includes'
   value?: string | number | boolean
 }
 

@@ -1,16 +1,16 @@
 import { describe, expect, it } from 'vitest'
+import type { AuditEntry, Envelope } from '../src/index.js'
 import {
   AuditTrail,
-  GENESIS_HASH,
   canonicalize,
   createEnvelope,
   digestsEqual,
+  GENESIS_HASH,
   seal,
   sha256Text,
   verifySeal,
   verifyTrail,
 } from '../src/index.js'
-import type { AuditEntry, Envelope } from '../src/index.js'
 
 const pdf = { kind: 'url' as const, url: 'https://example.com/a.pdf' }
 
@@ -279,12 +279,15 @@ describe('sealing', () => {
   it('rejects an unknown seal version', async () => {
     const { env, trail, values, documents, result } = await sealed()
     await expect(
-      verifySeal({ ...result, version: 2 as unknown as 1 }, {
-        envelope: env,
-        values,
-        documents,
-        trail: trail.list(),
-      }),
+      verifySeal(
+        { ...result, version: 2 as unknown as 1 },
+        {
+          envelope: env,
+          values,
+          documents,
+          trail: trail.list(),
+        },
+      ),
     ).rejects.toThrowError(/Unsupported seal version/u)
   })
 })

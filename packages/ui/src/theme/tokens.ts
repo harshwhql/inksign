@@ -147,7 +147,8 @@ export interface Theme {
 
 const sans =
   'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
-const mono = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace'
+const mono =
+  'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace'
 const script =
   '"Segoe Script", "Bradley Hand", "Snell Roundhand", "Apple Chancery", "Lucida Handwriting", cursive'
 
@@ -287,9 +288,7 @@ export function createTheme(options: CreateThemeOptions = {}): Theme {
   const scheme = options.scheme ?? 'light'
   const base = scheme === 'dark' ? darkTokens : lightTokens
 
-  const derived = options.brandColor
-    ? deriveFromBrandColor(options.brandColor, scheme)
-    : undefined
+  const derived = options.brandColor ? deriveFromBrandColor(options.brandColor, scheme) : undefined
 
   return {
     scheme,
@@ -366,7 +365,9 @@ export function hexToRgb(hex: string): Rgb | undefined {
 
 function rgbToHex({ r, g, b }: Rgb): string {
   const part = (n: number): string =>
-    Math.max(0, Math.min(255, Math.round(n))).toString(16).padStart(2, '0')
+    Math.max(0, Math.min(255, Math.round(n)))
+      .toString(16)
+      .padStart(2, '0')
   return `#${part(r)}${part(g)}${part(b)}`
 }
 

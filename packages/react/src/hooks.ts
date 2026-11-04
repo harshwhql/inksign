@@ -5,13 +5,13 @@ import {
   type Recipient,
   type RecipientId,
   type RoutingPlan,
+  resolveRouting,
   type SessionProgress,
   type SessionStage,
-  type ValidationIssue,
-  resolveRouting,
+  sessionTopics,
   topics,
+  type ValidationIssue,
 } from '@inksign/core'
-import { sessionTopics } from '@inksign/core'
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import { useInkSign, useSigningSession } from './context.js'
 
@@ -342,8 +342,7 @@ export function useElementSize(): [
       const box = entry.contentRect
       setSize((previous) =>
         // Sub-pixel jitter would otherwise relayout the whole document.
-        Math.abs(previous.width - box.width) < 0.5 &&
-        Math.abs(previous.height - box.height) < 0.5
+        Math.abs(previous.width - box.width) < 0.5 && Math.abs(previous.height - box.height) < 0.5
           ? previous
           : { width: box.width, height: box.height },
       )

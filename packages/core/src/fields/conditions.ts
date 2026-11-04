@@ -28,7 +28,7 @@ export function evaluateCondition(condition: FieldCondition, lookup: ValueLookup
     case 'includes': {
       const haystack = asText(value)
       const needle = condition.value === undefined ? '' : String(condition.value)
-      return haystack !== undefined && haystack.includes(needle)
+      return haystack?.includes(needle) ?? false
     }
   }
 }
@@ -110,7 +110,9 @@ export function buildReverseIndex(
  * Run this at authoring time: a cycle discovered mid-ceremony would otherwise
  * surface as a thrown error while the recipient is typing.
  */
-export function validateConditions(fields: ReadonlyMap<FieldId, Field>): readonly ValidationIssue[] {
+export function validateConditions(
+  fields: ReadonlyMap<FieldId, Field>,
+): readonly ValidationIssue[] {
   const issues: ValidationIssue[] = []
 
   for (const field of fields.values()) {
@@ -225,7 +227,10 @@ function asText(value: FieldValue): string | undefined {
  * Three-way comparison between a field value and a literal.
  * Returns `undefined` when the two are not comparable.
  */
-function compare(value: FieldValue, literal: string | number | boolean | undefined): number | undefined {
+function compare(
+  value: FieldValue,
+  literal: string | number | boolean | undefined,
+): number | undefined {
   if (literal === undefined) return isEmpty(value) ? 0 : 1
 
   if (typeof literal === 'boolean') {

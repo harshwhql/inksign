@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
+import type { Envelope } from '../src/index.js'
 import {
-  InkSignError,
+  canTransitionEnvelope,
   createEnvelope,
   deriveEnvelopeStatus,
+  InkSignError,
   isTerminal,
   validateEnvelope,
-  canTransitionEnvelope,
 } from '../src/index.js'
-import type { Envelope } from '../src/index.js'
 
 const pdf = { kind: 'url' as const, url: 'https://example.com/nda.pdf' }
 
@@ -192,7 +192,9 @@ describe('envelope validation', () => {
     const result = validateEnvelope(envelope)
     // A warning, not an error: it is legal, just probably a mistake.
     expect(result.valid).toBe(true)
-    expect(result.issues.some((i) => i.severity === 'warning' && i.message.includes('nothing to do'))).toBe(true)
+    expect(
+      result.issues.some((i) => i.severity === 'warning' && i.message.includes('nothing to do')),
+    ).toBe(true)
   })
 
   it('detects a conditional visibility cycle', () => {
@@ -207,8 +209,14 @@ describe('envelope validation', () => {
     const cyclic: Envelope = {
       ...envelope,
       fields: [
-        { ...(a as NonNullable<typeof a>), conditions: [{ whenField: b?.id ?? '', operator: 'filled' }] },
-        { ...(b as NonNullable<typeof b>), conditions: [{ whenField: a?.id ?? '', operator: 'filled' }] },
+        {
+          ...(a as NonNullable<typeof a>),
+          conditions: [{ whenField: b?.id ?? '', operator: 'filled' }],
+        },
+        {
+          ...(b as NonNullable<typeof b>),
+          conditions: [{ whenField: a?.id ?? '', operator: 'filled' }],
+        },
       ],
     }
 

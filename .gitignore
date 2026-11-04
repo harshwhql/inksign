@@ -14,3 +14,6 @@ npm-debug.log*
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# Local editor and tooling config
+.claude/

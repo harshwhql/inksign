@@ -1,7 +1,7 @@
 import type { FieldId, FieldValue, InkSignature } from '@inksign/core'
 import { formatValue, isEmpty, isInkField } from '@inksign/core'
 import { describeField } from '@inksign/ui'
-import { memo, useCallback, useId, type CSSProperties, type ReactNode } from 'react'
+import { type CSSProperties, memo, type ReactNode, useCallback, useId } from 'react'
 import { useInkSign } from './context.js'
 import type { FieldBox } from './DocumentViewer.jsx'
 import { useFieldState } from './hooks.js'
@@ -95,7 +95,7 @@ export const FieldInput = memo(function FieldInput({
     return (
       <div style={frame} aria-label={label} role="img" data-inksign-field={fieldId}>
         <span style={{ opacity: 0.55, fontSize: '0.75em' }}>
-          {filled ? formatValue(value, locale) : field.label ?? ''}
+          {filled ? formatValue(value, locale) : (field.label ?? '')}
         </span>
       </div>
     )
@@ -311,6 +311,7 @@ function InkPreview({ value, type }: { value: FieldValue; type: string }): React
         aria-hidden="true"
       >
         {ink.paths.map((path, index) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: a captured signature's stroke list is fixed and never reordered, so the index is a stable identity
           <path key={index} d={path} fill="var(--inksign-ink, #14161d)" />
         ))}
       </svg>

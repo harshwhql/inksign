@@ -1,9 +1,16 @@
 // @vitest-environment jsdom
-import { act, render, screen, waitFor } from '@testing-library/react'
-import { memo, useRef, type ReactNode } from 'react'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+
 import { createEnvelope, type Envelope, type FieldId, type RecipientId } from '@inksign/core'
-import { InkSignProvider, useFieldValue, useInkSign, useSessionProgress, useSessionStage } from '../src/index.js'
+import { act, render, screen, waitFor } from '@testing-library/react'
+import { memo, type ReactNode, useRef } from 'react'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import {
+  InkSignProvider,
+  useFieldValue,
+  useInkSign,
+  useSessionProgress,
+  useSessionStage,
+} from '../src/index.js'
 
 const pdf = { kind: 'url' as const, url: 'https://example.com/a.pdf' }
 
@@ -297,9 +304,7 @@ describe('session hooks', () => {
       const progress = useSessionProgress()
       const { session, store } = useInkSign()
       fill = () => {
-        const signature = store
-          .fieldIds()
-          .find((id) => store.requireField(id).type === 'signature')
+        const signature = store.fieldIds().find((id) => store.requireField(id).type === 'signature')
         if (signature) {
           session?.setValue(signature, {
             kind: 'ink',

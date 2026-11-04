@@ -10,11 +10,25 @@
  */
 
 export {
-  FieldIndex,
-  POINTS_PER_INCH,
+  type AnchorMatch,
+  applyAnchors,
+  extractText,
+  findAnchors,
+  internals as anchorInternals,
+  placeAtAnchor,
+  resolveAnchoredFields,
+} from './anchors.js'
+export {
+  buildCertificate,
+  type CertificateBranding,
+  type CertificateOptions,
+} from './certificate.js'
+export {
+  type Box,
   createViewport,
   cssPointToField,
   cssToField,
+  FieldIndex,
   fieldToCss,
   fieldToPdf,
   fitInside,
@@ -23,57 +37,40 @@ export {
   millimeters,
   normalizeRotation,
   overlaps,
+  POINTS_PER_INCH,
+  type Point,
   pageSizes,
   pdfToField,
-  withScale,
-  type Box,
-  type Point,
   type Rotation,
   type Viewport,
+  withScale,
 } from './geometry.js'
-
 export {
   base64ToBytes,
   bytesToBase64,
   configureWorker,
+  type LoadedDocument,
+  type LoadOptions,
   loadDocument,
   loadPdfJs,
-  type LoadOptions,
-  type LoadedDocument,
   type PdfDocumentProxy,
   type PdfPageProxy,
   type PdfTextItem,
+  setPdfJs,
 } from './loader.js'
-
 export {
-  PageRenderer,
-  visibleWindow,
   type CanvasLike,
+  PageRenderer,
   type RenderedPage,
   type RendererOptions,
+  visibleWindow,
 } from './renderer.js'
-
-export {
-  applyAnchors,
-  extractText,
-  findAnchors,
-  placeAtAnchor,
-  resolveAnchoredFields,
-  internals as anchorInternals,
-  type AnchorMatch,
-} from './anchors.js'
-
 export {
   loadPdfLib,
   mergeDocuments,
   parseColor,
-  stampDocument,
   type StampOptions,
   type StampStyle,
+  setPdfLib,
+  stampDocument,
 } from './stamp.js'
-
-export {
-  buildCertificate,
-  type CertificateBranding,
-  type CertificateOptions,
-} from './certificate.js'

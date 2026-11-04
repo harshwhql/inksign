@@ -7,15 +7,15 @@ import {
   type RecipientId,
   SigningSession,
 } from '@inksign/core'
-import { type Theme, createTheme, themeToVariables } from '@inksign/ui'
+import { createTheme, type Theme, themeToVariables } from '@inksign/ui'
 import {
+  type CSSProperties,
   createContext,
+  type ReactNode,
   useContext,
   useEffect,
   useMemo,
   useRef,
-  type CSSProperties,
-  type ReactNode,
 } from 'react'
 
 /**
@@ -117,10 +117,7 @@ export function InkSignProvider({
 export function useInkSign(): InkSignContextValue {
   const value = useContext(InkSignContext)
   if (!value) {
-    throw new InkSignError(
-      'UNSUPPORTED',
-      'This hook must be used inside an <InkSignProvider>',
-    )
+    throw new InkSignError('UNSUPPORTED', 'This hook must be used inside an <InkSignProvider>')
   }
   return value
 }

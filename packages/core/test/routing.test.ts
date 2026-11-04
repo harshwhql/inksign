@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { canRecipientAct, delegate, resolveRouting } from '../src/index.js'
 import type { Recipient, RecipientRole, RecipientStatus } from '../src/index.js'
+import { canRecipientAct, delegate, resolveRouting } from '../src/index.js'
 
 let counter = 0
 function person(
@@ -64,7 +64,10 @@ describe('routing', () => {
   })
 
   it('reports no active stage once everyone has finished', () => {
-    const plan = resolveRouting([person('signer', 1, 'completed'), person('signer', 2, 'completed')])
+    const plan = resolveRouting([
+      person('signer', 1, 'completed'),
+      person('signer', 2, 'completed'),
+    ])
     expect(plan.activeOrder).toBeUndefined()
     expect(plan.actionable).toEqual([])
   })

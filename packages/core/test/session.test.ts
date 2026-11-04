@@ -1,15 +1,15 @@
 import { beforeEach, describe, expect, it } from 'vitest'
+import type { Envelope, InkSignature, RecipientId } from '../src/index.js'
 import {
   AuditTrail,
-  EnvelopeStore,
-  InkSignError,
-  MemoryIdentityAdapter,
-  SigningSession,
   createEnvelope,
   createSession,
+  EnvelopeStore,
+  InkSignError,
   isEmpty,
+  MemoryIdentityAdapter,
+  type SigningSession,
 } from '../src/index.js'
-import type { Envelope, InkSignature, RecipientId } from '../src/index.js'
 
 const pdf = { kind: 'url' as const, url: 'https://example.com/a.pdf' }
 
@@ -103,13 +103,11 @@ describe('signing session', () => {
   it('refuses a value for a field assigned to someone else', () => {
     const { envelope, store } = build()
     const session = createSession(store, recipientIdFor(envelope, 'Alice'))
-    const bobField = envelope.fields.find(
-      (f) => f.recipientId === recipientIdFor(envelope, 'Bob'),
-    )
+    const bobField = envelope.fields.find((f) => f.recipientId === recipientIdFor(envelope, 'Bob'))
 
-    expect(() =>
-      session.setValue(bobField?.id ?? '', { kind: 'ink', value: drawn }),
-    ).toThrowError(InkSignError)
+    expect(() => session.setValue(bobField?.id ?? '', { kind: 'ink', value: drawn })).toThrowError(
+      InkSignError,
+    )
   })
 
   it('refuses a value of the wrong kind', () => {
@@ -117,9 +115,9 @@ describe('signing session', () => {
     const session = createSession(store, recipientIdFor(envelope, 'Alice'))
     const signature = session.assignedFields().find((f) => f.type === 'signature')
 
-    expect(() => session.setValue(signature?.id ?? '', { kind: 'text', value: 'Alice' })).toThrowError(
-      /cannot hold a text value/u,
-    )
+    expect(() =>
+      session.setValue(signature?.id ?? '', { kind: 'text', value: 'Alice' }),
+    ).toThrowError(/cannot hold a text value/u)
   })
 })
 

@@ -1,10 +1,15 @@
 import type { FieldId, InkSignature } from '@inksign/core'
 import { InkSignError } from '@inksign/core'
 import { announce, describeProgress, trapFocus } from '@inksign/ui'
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
+import { type ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { useInkSign, useSigningSession, useThemeStyle } from './context.js'
-import { SignaturePad, TypedSignature, UploadSignature, type SignaturePadHandle } from './SignaturePad.jsx'
 import { useCanFinish, useSessionProgress, useSessionStage } from './hooks.js'
+import {
+  SignaturePad,
+  type SignaturePadHandle,
+  TypedSignature,
+  UploadSignature,
+} from './SignaturePad.jsx'
 
 /**
  * The signing ceremony.
@@ -602,9 +607,8 @@ export function AdoptSignatureDialog({
           lineHeight: 1.5,
         }}
       >
-        By adopting this signature you agree that it is the electronic
-        representation of your signature, and that it will be used on this
-        document and anywhere else you apply it.
+        By adopting this signature you agree that it is the electronic representation of your
+        signature, and that it will be used on this document and anywhere else you apply it.
       </p>
 
       <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
@@ -659,6 +663,11 @@ function Dialog({
   }, [onClose])
 
   return (
+    // Clicking the backdrop is a convenience, not the only way out: Escape is
+    // handled above and every dialog carries a Cancel or Close control, so
+    // keyboard users are never dependent on this handler.
+    // biome-ignore lint/a11y/noStaticElementInteractions: backdrop dismissal duplicates Escape and the Cancel control
+    // biome-ignore lint/a11y/useKeyWithClickEvents: Escape is bound on the document, so the keyboard path exists
     <div
       style={{
         position: 'fixed',

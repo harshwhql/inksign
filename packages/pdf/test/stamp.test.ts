@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest'
-import { PDFDocument, StandardFonts } from 'pdf-lib'
-import { buildCertificate, mergeDocuments, stampDocument } from '../src/index.js'
-import { AuditTrail, createEnvelope, seal } from '@inksign/core'
 import type { Field, FieldValue, InkSignature } from '@inksign/core'
+import { AuditTrail, createEnvelope, seal } from '@inksign/core'
+import { PDFDocument, StandardFonts } from 'pdf-lib'
+import { describe, expect, it } from 'vitest'
+import { buildCertificate, mergeDocuments, stampDocument } from '../src/index.js'
 
 /** Builds a two-page PDF with some text, to stamp into. */
 async function blankPdf(pages = 2): Promise<Uint8Array> {
@@ -97,12 +97,28 @@ describe('stamping', () => {
 
     const fields: Field[] = [
       field({ id: 'sig', type: 'signature' }),
-      field({ id: 'ini', type: 'initials', rect: { page: 0, x: 300, y: 600, width: 48, height: 32 } }),
+      field({
+        id: 'ini',
+        type: 'initials',
+        rect: { page: 0, x: 300, y: 600, width: 48, height: 32 },
+      }),
       field({ id: 'txt', type: 'text', rect: { page: 0, x: 72, y: 500, width: 200, height: 18 } }),
       field({ id: 'num', type: 'number', rect: { page: 0, x: 72, y: 470, width: 80, height: 18 } }),
-      field({ id: 'chk', type: 'checkbox', rect: { page: 0, x: 72, y: 440, width: 16, height: 16 } }),
-      field({ id: 'dte', type: 'date_signed', rect: { page: 0, x: 72, y: 410, width: 120, height: 18 } }),
-      field({ id: 'drp', type: 'dropdown', rect: { page: 0, x: 72, y: 380, width: 120, height: 18 } }),
+      field({
+        id: 'chk',
+        type: 'checkbox',
+        rect: { page: 0, x: 72, y: 440, width: 16, height: 16 },
+      }),
+      field({
+        id: 'dte',
+        type: 'date_signed',
+        rect: { page: 0, x: 72, y: 410, width: 120, height: 18 },
+      }),
+      field({
+        id: 'drp',
+        type: 'dropdown',
+        rect: { page: 0, x: 72, y: 380, width: 120, height: 18 },
+      }),
     ]
 
     const values: Record<string, FieldValue> = {
@@ -140,10 +156,17 @@ describe('stamping', () => {
 
   it('reports a field placed past the last page by name', async () => {
     const bytes = await blankPdf(1)
-    const offEnd = field({ label: 'Counterparty signature', rect: { page: 4, x: 72, y: 600, width: 180, height: 48 } })
+    const offEnd = field({
+      label: 'Counterparty signature',
+      rect: { page: 4, x: 72, y: 600, width: 180, height: 48 },
+    })
 
     await expect(
-      stampDocument({ bytes, fields: [offEnd], values: { fld_sig: { kind: 'ink', value: drawn } } }),
+      stampDocument({
+        bytes,
+        fields: [offEnd],
+        values: { fld_sig: { kind: 'ink', value: drawn } },
+      }),
     ).rejects.toThrowError(/Counterparty signature.*page 5.*has 1/u)
   })
 

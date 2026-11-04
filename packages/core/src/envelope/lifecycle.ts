@@ -38,11 +38,11 @@ export function canTransitionEnvelope(from: EnvelopeStatus, to: EnvelopeStatus):
 
 export function assertEnvelopeTransition(from: EnvelopeStatus, to: EnvelopeStatus): void {
   if (canTransitionEnvelope(from, to)) return
-  throw new InkSignError(
-    'INVALID_TRANSITION',
-    `An envelope cannot move from ${from} to ${to}`,
-    { from, to, allowed: ENVELOPE_TRANSITIONS[from] },
-  )
+  throw new InkSignError('INVALID_TRANSITION', `An envelope cannot move from ${from} to ${to}`, {
+    from,
+    to,
+    allowed: ENVELOPE_TRANSITIONS[from],
+  })
 }
 
 export function canTransitionRecipient(from: RecipientStatus, to: RecipientStatus): boolean {
@@ -51,11 +51,11 @@ export function canTransitionRecipient(from: RecipientStatus, to: RecipientStatu
 
 export function assertRecipientTransition(from: RecipientStatus, to: RecipientStatus): void {
   if (canTransitionRecipient(from, to)) return
-  throw new InkSignError(
-    'INVALID_TRANSITION',
-    `A recipient cannot move from ${from} to ${to}`,
-    { from, to, allowed: RECIPIENT_TRANSITIONS[from] },
-  )
+  throw new InkSignError('INVALID_TRANSITION', `A recipient cannot move from ${from} to ${to}`, {
+    from,
+    to,
+    allowed: RECIPIENT_TRANSITIONS[from],
+  })
 }
 
 const TERMINAL_ENVELOPE: ReadonlySet<EnvelopeStatus> = new Set<EnvelopeStatus>([

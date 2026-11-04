@@ -1,9 +1,10 @@
+import type { FieldRect } from '@inksign/core'
 import { describe, expect, it } from 'vitest'
 import {
-  FieldIndex,
   createViewport,
   cssPointToField,
   cssToField,
+  FieldIndex,
   fieldToCss,
   fieldToPdf,
   fitInside,
@@ -15,7 +16,6 @@ import {
   pdfToField,
   withScale,
 } from '../src/geometry.js'
-import type { FieldRect } from '@inksign/core'
 
 const letter = pageSizes.letter
 const rect = (over: Partial<FieldRect> = {}): FieldRect => ({

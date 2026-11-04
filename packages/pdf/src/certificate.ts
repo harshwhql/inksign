@@ -317,7 +317,10 @@ export async function buildCertificate(options: CertificateOptions): Promise<Uin
 }
 
 function section(
-  page: { drawText(t: string, o: Record<string, unknown>): void; drawLine(o: Record<string, unknown>): void },
+  page: {
+    drawText(t: string, o: Record<string, unknown>): void
+    drawLine(o: Record<string, unknown>): void
+  },
   title: string,
   y: number,
   style: { bold: unknown; accent: unknown; hairline: unknown },

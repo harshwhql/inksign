@@ -78,7 +78,6 @@ const add = (a: Vec, b: Vec): Vec => [a[0] + b[0], a[1] + b[1]]
 const mul = (a: Vec, n: number): Vec => [a[0] * n, a[1] * n]
 const len = (a: Vec): number => Math.hypot(a[0], a[1])
 const dist = (a: Vec, b: Vec): number => Math.hypot(a[0] - b[0], a[1] - b[1])
-const dot = (a: Vec, b: Vec): number => a[0] * b[0] + a[1] * b[1]
 /** Rotates 90 degrees, giving the perpendicular used for the offsets. */
 const perp = (a: Vec): Vec => [a[1], -a[0]]
 const lerpVec = (a: Vec, b: Vec, t: number): Vec => add(a, mul(sub(b, a), t))

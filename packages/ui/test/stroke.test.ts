@@ -2,10 +2,10 @@ import { describe, expect, it } from 'vitest'
 import {
   getStrokeOutline,
   getStrokePath,
+  type InputPoint,
   normalizeStrokes,
   outlineToPath,
   strokesBounds,
-  type InputPoint,
 } from '../src/signature/stroke.js'
 
 /** A straight horizontal stroke with constant spacing. */
@@ -145,11 +145,14 @@ describe('stroke outline', () => {
   })
 
   it('copes with missing pressure values', () => {
-    const outline = getStrokeOutline([
-      { x: 0, y: 0 },
-      { x: 20, y: 10 },
-      { x: 40, y: 0 },
-    ], { last: true })
+    const outline = getStrokeOutline(
+      [
+        { x: 0, y: 0 },
+        { x: 20, y: 10 },
+        { x: 40, y: 0 },
+      ],
+      { last: true },
+    )
 
     expect(outline.length).toBeGreaterThan(0)
   })

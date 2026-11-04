@@ -173,10 +173,7 @@ export class InkSignSignaturePadElement extends HTMLElement {
     `
 
     this.canvas = root.querySelector('canvas') as HTMLCanvasElement
-    this.canvas.setAttribute(
-      'aria-label',
-      this.getAttribute('label') ?? 'Signature drawing area',
-    )
+    this.canvas.setAttribute('aria-label', this.getAttribute('label') ?? 'Signature drawing area')
   }
 
   private mountPad(): void {

@@ -1,5 +1,5 @@
-import { InkSignError } from '@inksign/core'
 import type { PageSize } from '@inksign/core'
+import { InkSignError } from '@inksign/core'
 import type { LoadedDocument, PdfPageProxy } from './loader.js'
 
 /**
@@ -240,10 +240,12 @@ export class PageRenderer {
       const task = this.queue.shift()
       if (!task) return
       if (task.cancelled) {
-        task.reject(new InkSignError('RENDER_FAILED', `Render of page ${task.page} was cancelled`, {
-          page: task.page,
-          cancelled: true,
-        }))
+        task.reject(
+          new InkSignError('RENDER_FAILED', `Render of page ${task.page} was cancelled`, {
+            page: task.page,
+            cancelled: true,
+          }),
+        )
         continue
       }
       this.running += 1

@@ -1,4 +1,4 @@
-import type { AuditEntry, AuditContext } from '../audit/trail.js'
+import type { AuditContext, AuditEntry } from '../audit/trail.js'
 import type {
   AttachmentRef,
   AuthMethod,

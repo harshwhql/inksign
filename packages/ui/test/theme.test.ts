@@ -65,10 +65,7 @@ describe('brand colour derivation', () => {
 
     for (const brand of brands) {
       const theme = createTheme({ brandColor: brand })
-      const ratio = contrastRatio(
-        theme.tokens.colors.primaryContrast,
-        theme.tokens.colors.primary,
-      )
+      const ratio = contrastRatio(theme.tokens.colors.primaryContrast, theme.tokens.colors.primary)
       // AA for large text and UI components.
       expect(ratio ?? 0).toBeGreaterThanOrEqual(3)
     }

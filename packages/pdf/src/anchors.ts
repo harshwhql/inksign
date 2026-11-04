@@ -93,9 +93,7 @@ function boundsFor(
   matchStart: number,
   matchEnd: number,
 ): Omit<FieldRect, 'page'> | undefined {
-  const touched = pageText.items.filter(
-    (entry) => entry.end > matchStart && entry.start < matchEnd,
-  )
+  const touched = pageText.items.filter((entry) => entry.end > matchStart && entry.start < matchEnd)
   if (touched.length === 0) return undefined
 
   let left = Number.POSITIVE_INFINITY

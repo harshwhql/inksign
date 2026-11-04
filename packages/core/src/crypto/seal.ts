@@ -1,7 +1,7 @@
-import { GENESIS_HASH, verifyTrail, type AuditEntry } from '../audit/trail.js'
+import { type AuditEntry, GENESIS_HASH, verifyTrail } from '../audit/trail.js'
 import { InkSignError } from '../errors.js'
-import { canonicalize, digestsEqual, hmacSha256, sha256, sha256Json, sha256Text } from './digest.js'
 import type { Envelope, EnvelopeId, Timestamp } from '../types.js'
+import { canonicalize, digestsEqual, hmacSha256, sha256, sha256Json, sha256Text } from './digest.js'
 
 /**
  * A seal binds together the finished documents, the values that were applied,
@@ -206,8 +206,7 @@ export async function verifySeal(
     if (expected === undefined || !digestsEqual(expected, actual)) mismatched.push(document.id)
   }
   const sealedIds = Object.keys(sealed.documentDigests)
-  const documentsOk =
-    mismatched.length === 0 && sealedIds.length === input.documents.length
+  const documentsOk = mismatched.length === 0 && sealedIds.length === input.documents.length
 
   const trailCheck = await verifyTrail(input.trail)
   const trailOk =
@@ -234,8 +233,7 @@ export async function verifySeal(
     issuer: issuerOk,
   }
 
-  const valid =
-    digestOk && envelopeOk && valuesOk && documentsOk && trailOk && issuerOk !== false
+  const valid = digestOk && envelopeOk && valuesOk && documentsOk && trailOk && issuerOk !== false
 
   return {
     valid,
@@ -245,10 +243,7 @@ export async function verifySeal(
   }
 }
 
-function explain(
-  checks: SealVerification['checks'],
-  mismatched: readonly string[],
-): string {
+function explain(checks: SealVerification['checks'], mismatched: readonly string[]): string {
   if (!checks.digest) return 'The seal digest does not match its contents, so the seal was altered'
   if (!checks.envelope) return 'The envelope structure changed after it was sealed'
   if (!checks.values) return 'The captured field values changed after they were sealed'
@@ -261,4 +256,3 @@ function explain(
   if (checks.issuer === false) return 'The issuer signature is missing or does not match'
   return 'Verification failed'
 }
-

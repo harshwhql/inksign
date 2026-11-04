@@ -1,5 +1,5 @@
-import { InkSignError, formatValue, isEmpty } from '@inksign/core'
 import type { Field, FieldValue, InkSignature, PageSize } from '@inksign/core'
+import { formatValue, InkSignError, isEmpty } from '@inksign/core'
 import { fieldToPdf, fitInside } from './geometry.js'
 import { base64ToBytes } from './loader.js'
 
@@ -68,16 +68,28 @@ interface PdfLibFont {
 
 let cached: PdfLibModule | undefined
 
+/**
+ * Supplies the pdf-lib module explicitly, instead of letting it be imported.
+ * See `setPdfJs` for when this is useful.
+ */
+export function setPdfLib(module: unknown): void {
+  cached = module as PdfLibModule
+}
+
+/**
+ * Loads pdf-lib on first use, so it lands in its own chunk and is fetched only
+ * when a document is actually written. The specifier is a literal because a
+ * variable one cannot be resolved by a browser bundler.
+ */
 export async function loadPdfLib(): Promise<PdfLibModule> {
   if (cached) return cached
   try {
-    const specifier = 'pdf-lib'
-    cached = (await import(/* @vite-ignore */ specifier)) as unknown as PdfLibModule
+    cached = (await import('pdf-lib')) as unknown as PdfLibModule
     return cached
   } catch (cause) {
     throw new InkSignError(
       'UNSUPPORTED',
-      'Writing PDFs needs the "pdf-lib" peer dependency. Install it to flatten fields or build a certificate.',
+      'Writing PDFs needs the "pdf-lib" peer dependency. Install it, or call setPdfLib() with your own instance.',
       {},
       { cause },
     )

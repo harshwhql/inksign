@@ -31,7 +31,10 @@ export interface WritableSignal<T> extends ReadableSignal<T> {
  * keeps the contract identical to React's `useSyncExternalStore`, so adapters
  * do not need a shim.
  */
-export function signal<T>(initial: T, equals: (a: T, b: T) => boolean = Object.is): WritableSignal<T> {
+export function signal<T>(
+  initial: T,
+  equals: (a: T, b: T) => boolean = Object.is,
+): WritableSignal<T> {
   let value = initial
   const listeners = new Set<Listener>()
 

@@ -12,7 +12,7 @@ import type {
   SignatureDocument,
   Timestamp,
 } from '../types.js'
-import { TopicNotifier, type Listener, type Unsubscribe } from './signal.js'
+import { type Listener, TopicNotifier, type Unsubscribe } from './signal.js'
 
 /**
  * Topic keys. Exported so adapters can subscribe without rebuilding the
@@ -92,14 +92,10 @@ export class EnvelopeStore {
     for (const field of envelope.fields) this.insertField(field)
 
     this.documentOrder = Object.freeze(
-      [...envelope.documents]
-        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-        .map((d) => d.id),
+      [...envelope.documents].sort((a, b) => (a.order ?? 0) - (b.order ?? 0)).map((d) => d.id),
     )
     this.recipientOrder = Object.freeze(
-      [...envelope.recipients]
-        .sort((a, b) => a.routingOrder - b.routingOrder)
-        .map((r) => r.id),
+      [...envelope.recipients].sort((a, b) => a.routingOrder - b.routingOrder).map((r) => r.id),
     )
   }
 

@@ -1,15 +1,21 @@
 import type { Adapters } from '../adapters/index.js'
 import { recipientFacts, systemClock } from '../adapters/index.js'
-import { AuditTrail, type AuditContext } from '../audit/trail.js'
+import { type AuditContext, AuditTrail } from '../audit/trail.js'
+import { assertActionable, deriveEnvelopeStatus } from '../envelope/lifecycle.js'
 import { InkSignError, type ValidationIssue } from '../errors.js'
 import { isFieldVisible } from '../fields/conditions.js'
-import { defaultValue, isAutoFilled, isEmpty, isInkField, isInteractive } from '../fields/registry.js'
+import {
+  defaultValue,
+  isAutoFilled,
+  isEmpty,
+  isInkField,
+  isInteractive,
+} from '../fields/registry.js'
 import { validateValue } from '../fields/validate.js'
 import { sessionId as newSessionId } from '../id.js'
-import { assertActionable, deriveEnvelopeStatus } from '../envelope/lifecycle.js'
 import { canRecipientAct } from '../recipients/routing.js'
-import { EnvelopeStore, topics } from '../store/envelope-store.js'
-import { TopicNotifier, type Listener, type Unsubscribe } from '../store/signal.js'
+import { type EnvelopeStore, topics } from '../store/envelope-store.js'
+import { type Listener, TopicNotifier, type Unsubscribe } from '../store/signal.js'
 import type {
   Field,
   FieldId,
@@ -223,13 +229,23 @@ export class SigningSession {
    * this to label a disabled finish button with something useful.
    */
   blockingReason():
-    | { code: 'AUTH_REQUIRED' | 'CONSENT_REQUIRED' | 'REQUIRED_FIELDS_INCOMPLETE' | 'VALIDATION_FAILED'; message: string }
+    | {
+        code:
+          | 'AUTH_REQUIRED'
+          | 'CONSENT_REQUIRED'
+          | 'REQUIRED_FIELDS_INCOMPLETE'
+          | 'VALIDATION_FAILED'
+        message: string
+      }
     | undefined {
     if (!this.authenticated) {
       return { code: 'AUTH_REQUIRED', message: 'Identity has not been verified yet' }
     }
     if (this.store.getMeta().settings.requireConsent && !this.consentAccepted) {
-      return { code: 'CONSENT_REQUIRED', message: 'The electronic record disclosure has not been accepted' }
+      return {
+        code: 'CONSENT_REQUIRED',
+        message: 'The electronic record disclosure has not been accepted',
+      }
     }
     if (this.store.getMeta().settings.enforceRequiredFields) {
       const { requiredRemaining } = this.progress()
@@ -620,15 +636,25 @@ export class SigningSession {
     } catch (cause) {
       // A webhook failure must not roll back a completed signature. The host
       // is responsible for retrying from the audit trail.
-      throw new InkSignError('ADAPTER_FAILED', `Webhook dispatch for ${type} failed`, { type }, {
-        cause,
-      })
+      throw new InkSignError(
+        'ADAPTER_FAILED',
+        `Webhook dispatch for ${type} failed`,
+        { type },
+        {
+          cause,
+        },
+      )
     }
   }
 
   private async record(
     action: Parameters<AuditTrail['append']>[0]['action'],
-    extra: { at?: Timestamp; documentId?: string; fieldId?: FieldId; detail?: Record<string, unknown> } = {},
+    extra: {
+      at?: Timestamp
+      documentId?: string
+      fieldId?: FieldId
+      detail?: Record<string, unknown>
+    } = {},
   ): Promise<void> {
     const captured = await this.captureContext()
     await this.trail.append({
@@ -666,7 +692,11 @@ export class SigningSession {
         'Accept the electronic record disclosure before filling in fields',
       )
     }
-    if (this.stageValue === 'completed' || this.stageValue === 'declined' || this.stageValue === 'delegated') {
+    if (
+      this.stageValue === 'completed' ||
+      this.stageValue === 'declined' ||
+      this.stageValue === 'delegated'
+    ) {
       throw new InkSignError('ENVELOPE_CLOSED', `This session is already ${this.stageValue}`, {
         stage: this.stageValue,
       })

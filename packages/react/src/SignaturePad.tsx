@@ -1,19 +1,19 @@
 import type { InkSignature } from '@inksign/core'
 import {
-  SignaturePad as PadController,
   createTypedSignature,
   createUploadedSignature,
-  scriptFontStack,
+  SignaturePad as PadController,
   type SignaturePadOptions,
+  scriptFontStack,
 } from '@inksign/ui'
 import {
   forwardRef,
+  type ReactNode,
   useCallback,
   useEffect,
   useImperativeHandle,
   useRef,
   useState,
-  type ReactNode,
 } from 'react'
 
 /**
@@ -72,6 +72,10 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
     const handlers = useRef({ onChange, onSignature })
     handlers.current = { onChange, onSignature }
 
+    // Mounts the pad exactly once. Re-running on an option change would
+    // destroy the canvas and lose whatever the signer had drawn, so options
+    // are applied in place by the effect below instead.
+    // biome-ignore lint/correctness/useExhaustiveDependencies: must mount once; re-running would discard the signer's drawing
     useEffect(() => {
       const canvas = canvasRef.current
       if (!canvas) return
@@ -109,9 +113,9 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
 
     // Apply option changes in place, keeping the drawing.
     const optionsKey = JSON.stringify(padOptions)
+    // biome-ignore lint/correctness/useExhaustiveDependencies: compares options by serialized value, since padOptions is a fresh object each render
     useEffect(() => {
       controllerRef.current?.setOptions(padOptions)
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [optionsKey])
 
     useImperativeHandle(
@@ -263,17 +267,30 @@ export function TypedSignature({
         />
       </label>
 
-      <div role="radiogroup" aria-label="Signature style" style={{ display: 'grid', gap: 8 }}>
+      <fieldset
+        style={{
+          display: 'grid',
+          gap: 8,
+          margin: 0,
+          padding: 0,
+          border: 'none',
+        }}
+      >
+        <legend
+          style={{
+            fontFamily: 'var(--inksign-font-family, system-ui, sans-serif)',
+            fontSize: 'var(--inksign-font-size-small, 0.8125rem)',
+            color: 'var(--inksign-text-muted, #5c6070)',
+            padding: 0,
+            marginBottom: 'var(--inksign-space-2, 8px)',
+          }}
+        >
+          Signature style
+        </legend>
+
         {options.map((option, index) => (
-          <button
+          <label
             key={option.label}
-            type="button"
-            role="radio"
-            aria-checked={selected === index}
-            onClick={() => {
-              setSelected(index)
-              emit(text, index)
-            }}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -281,7 +298,6 @@ export function TypedSignature({
               gap: 12,
               padding: 'var(--inksign-space-3, 12px)',
               cursor: 'pointer',
-              textAlign: 'left',
               background:
                 selected === index
                   ? 'var(--inksign-field-idle, rgba(31, 42, 94, 0.08))'
@@ -294,6 +310,28 @@ export function TypedSignature({
               borderRadius: 'var(--inksign-radius, 8px)',
             }}
           >
+            {/*
+              A real radio input rather than a button with role="radio". It
+              brings arrow-key navigation within the group, correct grouping
+              semantics from the fieldset, and form association for free, none
+              of which a styled button gets without reimplementing it.
+            */}
+            <input
+              type="radio"
+              name="inksign-typeface"
+              checked={selected === index}
+              onChange={() => {
+                setSelected(index)
+                emit(text, index)
+              }}
+              style={{
+                position: 'absolute',
+                width: 1,
+                height: 1,
+                opacity: 0,
+                pointerEvents: 'none',
+              }}
+            />
             <span
               style={{
                 fontFamily: option.stack,
@@ -316,9 +354,9 @@ export function TypedSignature({
             >
               {option.label}
             </span>
-          </button>
+          </label>
         ))}
-      </div>
+      </fieldset>
     </div>
   )
 }

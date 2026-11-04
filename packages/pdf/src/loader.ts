@@ -1,5 +1,5 @@
-import { InkSignError } from '@inksign/core'
 import type { DocumentSource, PageSize } from '@inksign/core'
+import { InkSignError } from '@inksign/core'
 
 /**
  * Structural types for the slice of pdf.js this package uses.
@@ -50,24 +50,40 @@ interface PdfJsModule {
 let cached: PdfJsModule | undefined
 
 /**
+ * Supplies the pdf.js module explicitly, instead of letting it be imported.
+ *
+ * Use this when your bundler needs the dependency named at a call site it
+ * controls, when you pin a specific pdf.js build, or when you load it from a
+ * CDN. Calling it means `loadPdfJs` never performs an import of its own.
+ *
+ * ```ts
+ * import * as pdfjs from 'pdfjs-dist'
+ * setPdfJs(pdfjs)
+ * ```
+ */
+export function setPdfJs(module: unknown): void {
+  cached = module as PdfJsModule
+}
+
+/**
  * Loads pdf.js on first use.
  *
- * The import is dynamic so that an application which only stamps PDFs on a
- * server, or only needs the geometry helpers, does not pull a renderer and its
- * worker into the bundle.
+ * The import is dynamic so bundlers put pdf.js and its worker in a separate
+ * chunk, fetched only when a page is actually rendered. The specifier is a
+ * literal, which matters: a variable specifier cannot be resolved by any
+ * browser bundler, and a bare name like `pdfjs-dist` means nothing to a
+ * browser at runtime, so the import has to be statically analyzable for the
+ * bundler to rewrite it.
  */
 export async function loadPdfJs(): Promise<PdfJsModule> {
   if (cached) return cached
   try {
-    // The specifier is a variable so bundlers leave it to runtime resolution
-    // rather than eagerly inlining an optional peer dependency.
-    const specifier = 'pdfjs-dist'
-    cached = (await import(/* @vite-ignore */ specifier)) as unknown as PdfJsModule
+    cached = (await import('pdfjs-dist')) as unknown as PdfJsModule
     return cached
   } catch (cause) {
     throw new InkSignError(
       'UNSUPPORTED',
-      'Rendering PDFs needs the "pdfjs-dist" peer dependency. Install it, or use @inksign/pdf only for geometry and stamping.',
+      'Rendering PDFs needs the "pdfjs-dist" peer dependency. Install it, or call setPdfJs() with your own instance.',
       {},
       { cause },
     )
@@ -194,9 +210,11 @@ export function base64ToBytes(data: string): Uint8Array {
 }
 
 export function bytesToBase64(bytes: Uint8Array): string {
-  const fromBuffer = (globalThis as {
-    Buffer?: { from(b: Uint8Array): { toString(e: string): string } }
-  }).Buffer
+  const fromBuffer = (
+    globalThis as {
+      Buffer?: { from(b: Uint8Array): { toString(e: string): string } }
+    }
+  ).Buffer
   if (fromBuffer) return fromBuffer.from(bytes).toString('base64')
 
   // Chunked so a large document does not blow the argument limit on apply.

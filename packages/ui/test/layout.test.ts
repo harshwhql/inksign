@@ -1,3 +1,4 @@
+import type { PageSize } from '@inksign/core'
 import { describe, expect, it } from 'vitest'
 import {
   anchoredScroll,
@@ -9,7 +10,6 @@ import {
   scrollOffsetForPage,
   visibleRange,
 } from '../src/viewer/layout.js'
-import type { PageSize } from '@inksign/core'
 
 const letter: PageSize = { width: 612, height: 792 }
 const pages = (count: number, size: PageSize = letter): PageSize[] =>

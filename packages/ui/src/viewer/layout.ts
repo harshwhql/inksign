@@ -52,7 +52,7 @@ export interface DocumentLayout {
 export function computeLayout(options: LayoutOptions): DocumentLayout {
   const gap = options.gap ?? 16
   const padding = options.padding ?? 16
-  const rotation = ((options.rotation ?? 0) % 360 + 360) % 360
+  const rotation = (((options.rotation ?? 0) % 360) + 360) % 360
 
   const pages: PageLayout[] = []
   let top = padding
@@ -128,8 +128,7 @@ export function visibleRange(
 
     visible.push(page.page)
 
-    const overlap =
-      Math.min(viewportBottom, page.top + page.height) - Math.max(scrollTop, page.top)
+    const overlap = Math.min(viewportBottom, page.top + page.height) - Math.max(scrollTop, page.top)
     if (overlap > bestArea) {
       bestArea = overlap
       dominant = page.page
@@ -212,10 +211,7 @@ export function fitPageScale(
 
   return Math.max(
     0.1,
-    Math.min(
-      (container.width - padding * 2) / width,
-      (container.height - padding * 2) / height,
-    ),
+    Math.min((container.width - padding * 2) / width, (container.height - padding * 2) / height),
   )
 }
 

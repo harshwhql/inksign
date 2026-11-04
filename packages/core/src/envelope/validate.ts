@@ -303,11 +303,7 @@ function checkFields(envelope: Envelope): readonly ValidationIssue[] {
   return issues
 }
 
-function checkGeometry(
-  field: Field,
-  envelope: Envelope,
-  name: string,
-): readonly ValidationIssue[] {
+function checkGeometry(field: Field, envelope: Envelope, name: string): readonly ValidationIssue[] {
   const issues: ValidationIssue[] = []
   const path = `fields.${field.id}.rect`
   const { page, x, y, width, height } = field.rect

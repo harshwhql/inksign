@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
-import { EnvelopeStore, TopicNotifier, createEnvelope, signal } from '../src/index.js'
 import type { Envelope, Field } from '../src/index.js'
+import { createEnvelope, EnvelopeStore, signal, TopicNotifier } from '../src/index.js'
 
 const pdf = { kind: 'url' as const, url: 'https://example.com/a.pdf' }
 
@@ -176,7 +176,9 @@ describe('envelope store', () => {
     const ids = store.fieldIds()
 
     const listeners = ids.map(() => vi.fn())
-    ids.forEach((id, i) => store.subscribeValue(id, listeners[i] as () => void))
+    ids.forEach((id, i) => {
+      store.subscribeValue(id, listeners[i] as () => void)
+    })
 
     store.setValue(ids[7] as string, { kind: 'text', value: 'hello' })
     await flush()

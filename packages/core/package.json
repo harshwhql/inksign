@@ -24,7 +24,11 @@
   ],
   "type": "module",
   "sideEffects": false,
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -36,8 +40,13 @@
     },
     "./package.json": "./package.json"
   },
-  "publishConfig": { "access": "public", "provenance": true },
-  "engines": { "node": ">=18.18" },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=18.18"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

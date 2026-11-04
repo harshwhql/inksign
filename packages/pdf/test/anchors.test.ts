@@ -1,11 +1,6 @@
-import { describe, expect, it } from 'vitest'
-import {
-  anchorInternals,
-  findAnchors,
-  placeAtAnchor,
-  resolveAnchoredFields,
-} from '../src/index.js'
 import type { Field, PageSize } from '@inksign/core'
+import { describe, expect, it } from 'vitest'
+import { anchorInternals, findAnchors, placeAtAnchor, resolveAnchoredFields } from '../src/index.js'
 import type { PdfTextItem } from '../src/loader.js'
 
 const page: PageSize = { width: 612, height: 792 }
@@ -30,10 +25,7 @@ describe('text assembly', () => {
   })
 
   it('inserts a space where the horizontal gap implies a word break', () => {
-    const assembled = assemble([
-      item('Authorized', 72, 700, 60),
-      item('signature', 140, 700, 54),
-    ])
+    const assembled = assemble([item('Authorized', 72, 700, 60), item('signature', 140, 700, 54)])
     expect(assembled.text).toBe('Authorized signature')
   })
 
@@ -78,9 +70,9 @@ describe('finding anchors', () => {
   })
 
   it('respects caseSensitive', () => {
-    expect(
-      findAnchors(pages, { text: 'authorized signature', caseSensitive: true }),
-    ).toHaveLength(0)
+    expect(findAnchors(pages, { text: 'authorized signature', caseSensitive: true })).toHaveLength(
+      0,
+    )
   })
 
   it('returns a bounding box spanning every matched run', () => {
@@ -91,9 +83,7 @@ describe('finding anchors', () => {
   })
 
   it('finds repeated occurrences on one page', () => {
-    const repeated = [
-      assemble([item('Initial', 72, 700, 36), item('Initial', 300, 700, 36)]),
-    ]
+    const repeated = [assemble([item('Initial', 72, 700, 36), item('Initial', 300, 700, 36)])]
     expect(findAnchors(repeated, { text: 'Initial' })).toHaveLength(2)
   })
 
@@ -153,7 +143,11 @@ describe('resolving anchored fields', () => {
   }
 
   it('expands one field into a copy per occurrence', () => {
-    const { resolved, unmatched } = resolveAnchoredFields([anchored], pages, (f, i) => `${f.id}_${i}`)
+    const { resolved, unmatched } = resolveAnchoredFields(
+      [anchored],
+      pages,
+      (f, i) => `${f.id}_${i}`,
+    )
 
     expect(unmatched).toHaveLength(0)
     expect(resolved).toHaveLength(3)
@@ -173,7 +167,11 @@ describe('resolving anchored fields', () => {
 
   it('reports a field whose anchor text is missing', () => {
     const missing: Field = { ...anchored, anchor: { text: 'Nowhere' } }
-    const { resolved, unmatched } = resolveAnchoredFields([missing], pages, (f, i) => `${f.id}_${i}`)
+    const { resolved, unmatched } = resolveAnchoredFields(
+      [missing],
+      pages,
+      (f, i) => `${f.id}_${i}`,
+    )
 
     expect(resolved).toHaveLength(0)
     expect(unmatched).toHaveLength(1)

@@ -1,6 +1,11 @@
 import { InkSignError, validationError } from '../errors.js'
 import { describeField } from '../fields/registry.js'
-import { documentId as newDocumentId, envelopeId as newEnvelopeId, fieldId as newFieldId, recipientId as newRecipientId } from '../id.js'
+import {
+  documentId as newDocumentId,
+  envelopeId as newEnvelopeId,
+  fieldId as newFieldId,
+  recipientId as newRecipientId,
+} from '../id.js'
 import type {
   AnchorPlacement,
   AuthMethod,
@@ -311,7 +316,10 @@ export class EnvelopeBuilder {
 
     const validation: FieldValidation | undefined =
       input.required !== undefined || input.validation
-        ? { ...input.validation, ...(input.required !== undefined ? { required: input.required } : {}) }
+        ? {
+            ...input.validation,
+            ...(input.required !== undefined ? { required: input.required } : {}),
+          }
         : undefined
 
     const options: readonly FieldOption[] | undefined = input.options?.map((option) =>

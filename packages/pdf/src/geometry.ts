@@ -22,7 +22,7 @@ export type Rotation = 0 | 90 | 180 | 270
 
 /** Normalizes any degree value to one of the four quarter turns. */
 export function normalizeRotation(degrees: number | undefined): Rotation {
-  const value = ((Math.round((degrees ?? 0) / 90) * 90) % 360 + 360) % 360
+  const value = (((Math.round((degrees ?? 0) / 90) * 90) % 360) + 360) % 360
   return value as Rotation
 }
 
@@ -222,12 +222,7 @@ export function hitTest(point: Point, rect: FieldRect): boolean {
 /** True when two rects overlap, used to warn about stacked fields. */
 export function overlaps(a: FieldRect, b: FieldRect): boolean {
   if (a.page !== b.page) return false
-  return (
-    a.x < b.x + b.width &&
-    a.x + a.width > b.x &&
-    a.y < b.y + b.height &&
-    a.y + a.height > b.y
-  )
+  return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y
 }
 
 /**
