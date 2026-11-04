@@ -52,17 +52,20 @@ InkSign is the signing flow as a library. You keep the documents, the database, 
 
 ## Packages
 
-| Package                              | Size (min+gzip) | What it is                                                                                         |
-| ------------------------------------ | --------------- | -------------------------------------------------------------------------------------------------- |
-| [`@inksign/core`](./packages/core)   | 15.0 kB         | The engine. Envelopes, routing, field logic, sessions, audit trail. **Zero runtime dependencies.** |
-| [`@inksign/pdf`](./packages/pdf)     | 8.6 kB          | Rendering, coordinate geometry, anchor placement, field flattening.                                |
-| [`@inksign/ui`](./packages/ui)       | 8.9 kB          | Signature capture, layout, theming, web components. No framework.                                  |
-| [`@inksign/react`](./packages/react) | 9.5 kB          | React hooks and components.                                                                        |
+| Package                                | Size (min+gzip) | What it is                                                                                         |
+| -------------------------------------- | --------------- | -------------------------------------------------------------------------------------------------- |
+| [`@inksign/core`](./packages/core)     | 15.0 kB         | The engine. Envelopes, routing, field logic, sessions, audit trail. **Zero runtime dependencies.** |
+| [`@inksign/pdf`](./packages/pdf)       | 8.6 kB          | Rendering, coordinate geometry, anchor placement, field flattening.                                |
+| [`@inksign/ui`](./packages/ui)         | 8.9 kB          | Signature capture, layout, theming, web components. No framework.                                  |
+| [`@inksign/react`](./packages/react)   | 9.5 kB          | React hooks and components.                                                                        |
+| [`@inksign/vue`](./packages/vue)       | 9.8 kB          | Vue 3 composables and components.                                                                  |
+| [`@inksign/svelte`](./packages/svelte) | 2.3 kB          | Svelte stores and actions. No compiler needed.                                                     |
 
 Sizes are measured by `size-limit`, which runs in CI against a budget so they cannot drift upwards unnoticed. Everything tree-shakes:
 
 | Importing only                                                          | Cost    |
 | ----------------------------------------------------------------------- | ------- |
+| `fieldValue`, `sessionProgress`, `canFinish` (Svelte)                   | 401 B   |
 | `createViewport`, `fieldToCss`, `fieldToPdf`, `FieldIndex`              | 731 B   |
 | `SignaturePad`, `getStrokePath`                                         | 3.2 kB  |
 | `createEnvelope`, `EnvelopeStore`, `SigningSession`, `validateEnvelope` | 12.9 kB |
@@ -73,9 +76,11 @@ Sizes are measured by `size-limit`, which runs in CI against a budget so they ca
 
 The engine and the UI layer are plain TypeScript with no framework imports, so there are three ways in.
 
-**React.** Use `@inksign/react`.
+**React, Vue and Svelte.** Use `@inksign/react`, `@inksign/vue` or `@inksign/svelte`.
 
-**Anything else, today.** `@inksign/ui` ships web components, which are part of the platform. This works in Vue, Svelte, Angular, Solid, Astro, or plain HTML with no adapter:
+The Svelte package is worth a note: its reactive layer implements Svelte's store contract and its imperative parts are actions, so it needs no compiler and works unchanged in Svelte 3, 4 and 5. That is also why it is the smallest adapter at 2.3 kB, and 401 bytes if you only import the stores.
+
+**Anything else, today.** `@inksign/ui` ships web components, which are part of the platform. This works in Angular, Solid, Astro, or plain HTML with no adapter:
 
 ```html
 <inksign-signature-pad ink="#1f2a5e" height="180"></inksign-signature-pad>
@@ -91,7 +96,7 @@ The engine and the UI layer are plain TypeScript with no framework imports, so t
 </script>
 ```
 
-**Your own bindings.** The core exposes a keyed subscription API, so a framework adapter is small. `@inksign/react` is about 300 lines over the engine, not a reimplementation of it. Dedicated Vue and Svelte adapters are on the roadmap below.
+**Your own bindings.** The core exposes a keyed subscription API, so an adapter is small and none of them reimplement the engine. Each binds `subscribeValue`, `subscribeField` and friends to that framework's reactivity primitive, and the rules stay in one place.
 
 ## Built to scale
 
@@ -189,11 +194,10 @@ One gap worth naming: the document itself is rasterized to a canvas, so its text
 
 Version 0.1.0. The API may change before 1.0, and changes will go through [changesets](https://github.com/changesets/changesets) with a changelog.
 
-398 tests across the four packages, covering the routing and lifecycle rules, conditional field logic, coordinate round-trips through every rotation, hash chain tamper detection, real PDF writes, the React render-isolation claim, and an end-to-end pipeline that takes a blank PDF through anchor placement, authentication, consent, signing, flattening, sealing and verification.
+441 tests across the six packages, covering the routing and lifecycle rules, conditional field logic, coordinate round-trips through every rotation, hash chain tamper detection, real PDF writes, the render-isolation claim in all three adapters, an end-to-end pipeline that takes a blank PDF through anchor placement, authentication, consent, signing, flattening, sealing and verification, and a server-rendering check that every package imports without a DOM.
 
 **Roadmap**
 
-- Dedicated Vue and Svelte adapters. Web components cover these today.
 - A selectable text layer over rendered pages, for screen readers and text selection.
 - Templates with role placeholders, and bulk send.
 - A reference backend showing the adapters against Postgres and S3.

@@ -2,6 +2,22 @@ import type { InkSignature } from '@inksign/core'
 import { SignaturePad, type SignaturePadOptions } from '../signature/pad.js'
 
 /**
+ * Resolves the base class for the custom element.
+ *
+ * `class X extends HTMLElement` is evaluated when the module is imported, and
+ * `HTMLElement` does not exist on a server. Without this guard, merely
+ * importing `@inksign/ui` would throw during server rendering in Nuxt,
+ * SvelteKit or Next, which is a hard crash for something the server never
+ * uses. An inert base is substituted there; nothing instantiates the class
+ * without a DOM, because `defineInkSignElements` needs `customElements`.
+ */
+function elementBase(): typeof HTMLElement {
+  const base = (globalThis as { HTMLElement?: typeof HTMLElement }).HTMLElement
+  if (base) return base
+  return class {} as unknown as typeof HTMLElement
+}
+
+/**
  * `<inksign-signature-pad>`, a custom element wrapping the signature pad.
  *
  * This is the escape hatch that makes the "works with any framework" claim
@@ -25,7 +41,11 @@ import { SignaturePad, type SignaturePadOptions } from '../signature/pad.js'
  * geometry, which would misalign the ink from the pointer. Theming still works
  * because custom properties pierce the shadow boundary.
  */
-export class InkSignSignaturePadElement extends HTMLElement {
+// The /* @__PURE__ */ annotation matters: a class whose extends clause is a
+// call expression is a side effect as far as a bundler is concerned, so
+// without it this module can never be tree-shaken and every consumer pays for
+// the custom element whether or not they register it.
+export class InkSignSignaturePadElement extends /* @__PURE__ */ elementBase() {
   static readonly observedAttributes = [
     'ink',
     'background',

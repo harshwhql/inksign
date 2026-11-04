@@ -1,0 +1,65 @@
+{
+  "name": "@inksign/svelte",
+  "version": "0.1.0",
+  "description": "Svelte bindings for InkSign: keyed stores and actions for signature capture, document viewing and the signing ceremony. No compiler needed, works in Svelte 3, 4 and 5.",
+  "license": "MIT",
+  "author": "harshwhql",
+  "homepage": "https://github.com/harshwhql/inksign#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harshwhql/inksign.git",
+    "directory": "packages/svelte"
+  },
+  "bugs": "https://github.com/harshwhql/inksign/issues",
+  "keywords": [
+    "svelte",
+    "sveltekit",
+    "svelte-store",
+    "svelte-action",
+    "signature-pad",
+    "electronic-signature",
+    "esignature",
+    "docusign-alternative"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --build"
+  },
+  "dependencies": {
+    "@inksign/core": "0.1.0",
+    "@inksign/pdf": "0.1.0",
+    "@inksign/ui": "0.1.0"
+  },
+  "peerDependencies": {
+    "svelte": ">=3.55 <6"
+  },
+  "devDependencies": {
+    "svelte": "^5.42.0"
+  }
+}

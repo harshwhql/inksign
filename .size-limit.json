@@ -38,7 +38,7 @@
     "name": "@inksign/ui (signature pad only)",
     "path": "packages/ui/dist/index.js",
     "import": "{ SignaturePad, getStrokePath }",
-    "limit": "5 kB",
+    "limit": "3.6 kB",
     "gzip": true,
     "ignore": ["@inksign/core", "@inksign/pdf"]
   },
@@ -48,5 +48,27 @@
     "limit": "12 kB",
     "gzip": true,
     "ignore": ["react", "react-dom", "@inksign/core", "@inksign/pdf", "@inksign/ui"]
+  },
+  {
+    "name": "@inksign/vue",
+    "path": "packages/vue/dist/index.js",
+    "limit": "11 kB",
+    "gzip": true,
+    "ignore": ["vue", "@inksign/core", "@inksign/pdf", "@inksign/ui"]
+  },
+  {
+    "name": "@inksign/svelte",
+    "path": "packages/svelte/dist/index.js",
+    "limit": "3 kB",
+    "gzip": true,
+    "ignore": ["svelte", "@inksign/core", "@inksign/pdf", "@inksign/ui"]
+  },
+  {
+    "name": "@inksign/svelte (stores only)",
+    "path": "packages/svelte/dist/index.js",
+    "import": "{ fieldValue, sessionProgress, canFinish }",
+    "limit": "700 B",
+    "gzip": true,
+    "ignore": ["svelte", "@inksign/core", "@inksign/pdf", "@inksign/ui"]
   }
 ]

@@ -29,6 +29,8 @@ export default defineConfig({
       '@inksign/pdf': resolvePath('./packages/pdf/src/index.ts'),
       '@inksign/ui': resolvePath('./packages/ui/src/index.ts'),
       '@inksign/react': resolvePath('./packages/react/src/index.ts'),
+      '@inksign/vue': resolvePath('./packages/vue/src/index.ts'),
+      '@inksign/svelte': resolvePath('./packages/svelte/src/index.ts'),
     },
   },
 })

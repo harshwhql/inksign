@@ -1,0 +1,67 @@
+{
+  "name": "@inksign/vue",
+  "version": "0.1.0",
+  "description": "Vue 3 bindings for InkSign: composables and components for signature capture, document viewing and the signing ceremony, with fine-grained subscriptions so one field does not re-render the page.",
+  "license": "MIT",
+  "author": "harshwhql",
+  "homepage": "https://github.com/harshwhql/inksign#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harshwhql/inksign.git",
+    "directory": "packages/vue"
+  },
+  "bugs": "https://github.com/harshwhql/inksign/issues",
+  "keywords": [
+    "vue",
+    "vue3",
+    "composables",
+    "signature-pad",
+    "electronic-signature",
+    "esignature",
+    "docusign-alternative",
+    "pdf-viewer"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --build"
+  },
+  "dependencies": {
+    "@inksign/core": "0.1.0",
+    "@inksign/pdf": "0.1.0",
+    "@inksign/ui": "0.1.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "^2.4.6",
+    "jsdom": "^26.1.0",
+    "vue": "^3.5.0"
+  }
+}

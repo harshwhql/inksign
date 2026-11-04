@@ -1,10 +1,26 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "harshwhql/inksign" }],
+  "changelog": [
+    "@changesets/changelog-github",
+    {
+      "repo": "harshwhql/inksign"
+    }
+  ],
   "commit": false,
-  "fixed": [["@inksign/core", "@inksign/pdf", "@inksign/ui", "@inksign/react"]],
+  "fixed": [
+    [
+      "@inksign/core",
+      "@inksign/pdf",
+      "@inksign/ui",
+      "@inksign/react",
+      "@inksign/vue",
+      "@inksign/svelte"
+    ]
+  ],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@inksign/example-react-basic"]
+  "ignore": [
+    "@inksign/example-react-basic"
+  ]
 }
