@@ -205,11 +205,19 @@ Version 0.1.0. The API may change before 1.0, and changes will go through [chang
 git clone https://github.com/harshwhql/inksign.git
 cd inksign
 npm install
+npm run build   # build first: packages resolve each other through their types field
 npm test
-npm run build
 ```
 
-`npm run typecheck` runs the project references, `npm run lint` runs Biome. Issues and pull requests are welcome.
+Development needs Node 22 or later, which is what `pdfjs-dist` and the Vite plugin require. The published packages support Node 20, and CI verifies that separately by running the built output on a clean Node 20 with no install.
+
+`npm run lint` runs Biome, `npm run typecheck` builds then checks the project references, and `npm run size` checks the bundle budgets. The React example lives in `examples/react-basic`:
+
+```bash
+npm run dev -w @inksign/example-react-basic
+```
+
+Issues and pull requests are welcome. Changes that affect a published package need a changeset: run `npx changeset` and describe the change.
 
 ## License
 
