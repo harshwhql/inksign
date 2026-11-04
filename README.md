@@ -183,7 +183,7 @@ One gap worth naming: the document itself is rasterized to a canvas, so its text
 
 Version 0.1.0. The API may change before 1.0, and changes will go through [changesets](https://github.com/changesets/changesets) with a changelog.
 
-278 tests across the four packages, covering the routing and lifecycle rules, conditional field logic, coordinate round-trips through every rotation, hash chain tamper detection, real PDF writes, the React render-isolation claim, and an end-to-end pipeline that takes a blank PDF through anchor placement, authentication, consent, signing, flattening, sealing and verification.
+398 tests across the four packages, covering the routing and lifecycle rules, conditional field logic, coordinate round-trips through every rotation, hash chain tamper detection, real PDF writes, the React render-isolation claim, and an end-to-end pipeline that takes a blank PDF through anchor placement, authentication, consent, signing, flattening, sealing and verification.
 
 **Roadmap**
 

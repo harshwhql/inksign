@@ -44,7 +44,7 @@
     "provenance": true
   },
   "engines": {
-    "node": ">=18.18"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "tsup",

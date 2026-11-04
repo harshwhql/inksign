@@ -2,7 +2,8 @@ import { InkSignError } from '../errors.js'
 
 /**
  * Hashing built on WebCrypto, which is native in browsers (secure contexts,
- * so https and localhost) and in Node 18 or later. No polyfill is bundled:
+ * so https and localhost) and in Node 20 or later. Node 18 exposes it only
+ * behind a flag, which is one reason the supported floor is 20. No polyfill is bundled:
  * shipping a second JavaScript SHA-256 would double the surface that has to be
  * trusted for the audit chain to mean anything.
  */
@@ -12,7 +13,7 @@ function subtle(): SubtleCrypto {
   if (!crypto?.subtle) {
     throw new InkSignError(
       'UNSUPPORTED',
-      'WebCrypto is not available. InkSign needs a secure context (https or localhost) in the browser, or Node 18 or later.',
+      'WebCrypto is not available. InkSign needs a secure context (https or localhost) in the browser, or Node 20 or later. Node 18 only exposes it behind a flag.',
     )
   }
   return crypto.subtle
