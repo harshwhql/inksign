@@ -42,14 +42,17 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # Build comes before typecheck: each package resolves its siblings
+      # through their published `types` field, which only exists once they have
+      # been built, and the build order is explicit for the same reason.
+      - name: Build
+        run: npm run build
+
       - name: Typecheck
-        run: npm run typecheck
+        run: npm run typecheck:only
 
       - name: Test
         run: npm test
-
-      - name: Build
-        run: npm run build
 
       - name: Upload build output
         if: matrix.node == 22

@@ -35,9 +35,9 @@ jobs:
       - name: Verify before publishing
         run: |
           npm run lint
-          npm run typecheck
-          npm test
           npm run build
+          npm run typecheck:only
+          npm test
 
       # Opens a pull request that bumps versions and writes changelogs when
       # changesets are pending. Publishes when that pull request is merged.

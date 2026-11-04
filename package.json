@@ -11,10 +11,10 @@
     "examples/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
+    "build": "npm run build -w @inksign/core && npm run build -w @inksign/pdf && npm run build -w @inksign/ui && npm run build -w @inksign/react",
     "dev": "npm run dev --workspaces --if-present",
     "clean": "rimraf packages/*/dist packages/*/.tsbuildinfo",
-    "typecheck": "tsc --build tsconfig.json",
+    "typecheck": "npm run build && tsc --build tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -24,7 +24,8 @@
     "size": "size-limit",
     "release": "npm run build && changeset publish",
     "version": "changeset version && npm install --package-lock-only",
-    "smoke": "node scripts/smoke.mjs"
+    "smoke": "node scripts/smoke.mjs",
+    "typecheck:only": "tsc --build tsconfig.json"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.0",

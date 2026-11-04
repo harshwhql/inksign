@@ -155,38 +155,70 @@ export function validateConditions(
   return issues
 }
 
-/** Iterative depth-first search, so deep graphs cannot overflow the stack. */
+/**
+ * Finds dependency cycles, by iterative depth-first search with colouring.
+ *
+ * Iterative rather than recursive so a long chain cannot overflow the stack,
+ * and colour-marked rather than path-copying so it stays linear. Carrying a
+ * copy of the parent path into each frame is the obvious implementation and is
+ * quadratic in both time and memory, which turns a document with a long
+ * conditional chain into a hang at authoring time.
+ *
+ * Each node is white (unvisited), grey (on the current path) or black (fully
+ * explored). An edge to a grey node is a back edge, which is a cycle; an edge
+ * to a black node is a path already proven acyclic, so it is skipped. Every
+ * node and edge is therefore visited once.
+ */
 function findCycles(fields: ReadonlyMap<FieldId, Field>): readonly FieldId[][] {
   const cycles: FieldId[][] = []
-  const state = new Map<FieldId, 'visiting' | 'done'>()
+
+  const WHITE = 0
+  const GREY = 1
+  const BLACK = 2
+  const colour = new Map<FieldId, number>()
+
+  /** The current path, with a set alongside it for O(1) membership tests. */
+  const path: FieldId[] = []
+  const onPath = new Set<FieldId>()
 
   for (const start of fields.keys()) {
-    if (state.get(start) === 'done') continue
+    if ((colour.get(start) ?? WHITE) !== WHITE) continue
 
-    const stack: { id: FieldId; parents: FieldId[] }[] = [{ id: start, parents: [] }]
+    // Each frame holds a node and how many of its edges have been followed.
+    const stack: { id: FieldId; edge: number }[] = [{ id: start, edge: 0 }]
+    colour.set(start, GREY)
+    path.push(start)
+    onPath.add(start)
+
     while (stack.length > 0) {
-      const frame = stack.pop() as { id: FieldId; parents: FieldId[] }
-      const { id, parents } = frame
+      const frame = stack[stack.length - 1] as { id: FieldId; edge: number }
+      const conditions = fields.get(frame.id)?.conditions ?? []
 
-      if (state.get(id) === 'done') continue
-      const position = parents.indexOf(id)
-      if (position >= 0) {
-        cycles.push(parents.slice(position))
+      if (frame.edge >= conditions.length) {
+        // Every edge explored, so this node is settled.
+        colour.set(frame.id, BLACK)
+        onPath.delete(frame.id)
+        path.pop()
+        stack.pop()
         continue
       }
-      if (parents.length > fields.size) continue
 
-      state.set(id, 'visiting')
-      const field = fields.get(id)
-      const next = field?.conditions ?? []
-      if (next.length === 0) {
-        state.set(id, 'done')
+      const next = conditions[frame.edge]?.whenField
+      frame.edge += 1
+
+      if (next === undefined || !fields.has(next)) continue
+
+      if (onPath.has(next)) {
+        // A back edge: the cycle is the path from `next` to here.
+        cycles.push(path.slice(path.indexOf(next)))
         continue
       }
-      for (const condition of next) {
-        if (!fields.has(condition.whenField)) continue
-        stack.push({ id: condition.whenField, parents: [...parents, id] })
-      }
+      if ((colour.get(next) ?? WHITE) === BLACK) continue
+
+      colour.set(next, GREY)
+      path.push(next)
+      onPath.add(next)
+      stack.push({ id: next, edge: 0 })
     }
   }
 

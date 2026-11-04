@@ -14,7 +14,12 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['packages/*/src/**/*.ts'],
-      exclude: ['packages/*/src/**/index.ts'],
+      exclude: [
+        'packages/*/src/**/index.ts',
+        // Declaration-only: no runtime code to execute, so counting it as
+        // zero percent would understate the real figure.
+        'packages/core/src/types.ts',
+      ],
       reporter: ['text', 'lcov'],
     },
   },
