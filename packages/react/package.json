@@ -1,0 +1,60 @@
+{
+  "name": "@inksign/react",
+  "version": "0.1.0",
+  "description": "React bindings for InkSign: hooks and components for signature capture, document viewing and the signing ceremony, with fine-grained subscriptions so one field does not re-render the page.",
+  "license": "MIT",
+  "author": "harshwhql",
+  "homepage": "https://github.com/harshwhql/inksign#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harshwhql/inksign.git",
+    "directory": "packages/react"
+  },
+  "bugs": "https://github.com/harshwhql/inksign/issues",
+  "keywords": [
+    "react",
+    "react-signature",
+    "signature-pad",
+    "electronic-signature",
+    "esignature",
+    "docusign-alternative",
+    "hooks",
+    "pdf-viewer"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "files": ["dist", "README.md", "LICENSE"],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": { "access": "public", "provenance": true },
+  "engines": { "node": ">=18.18" },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --build"
+  },
+  "dependencies": {
+    "@inksign/core": "0.1.0",
+    "@inksign/pdf": "0.1.0",
+    "@inksign/ui": "0.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^19.2.0",
+    "jsdom": "^26.1.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  }
+}

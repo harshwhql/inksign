@@ -10,7 +10,7 @@ const resolvePath = (relative: string): string =>
 
 export default defineConfig({
   test: {
-    include: ['packages/*/test/**/*.test.ts'],
+    include: ['packages/*/test/**/*.test.ts', 'packages/*/test/**/*.test.tsx'],
     environment: 'node',
     coverage: {
       provider: 'v8',
@@ -24,6 +24,7 @@ export default defineConfig({
       '@inksign/core': resolvePath('./packages/core/src/index.ts'),
       '@inksign/pdf': resolvePath('./packages/pdf/src/index.ts'),
       '@inksign/ui': resolvePath('./packages/ui/src/index.ts'),
+      '@inksign/react': resolvePath('./packages/react/src/index.ts'),
     },
   },
 })
