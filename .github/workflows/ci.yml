@@ -22,9 +22,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # 18 is the declared floor, 22 is current LTS. Both must pass, since
-        # the engine relies on WebCrypto being native.
-        node: [18, 20, 22]
+        # The development toolchain needs Node 22 or later: pdfjs-dist and the
+        # Vite plugin both declare that floor. The published packages support
+        # Node 18, which the `floor` job below verifies against the built
+        # output rather than against the toolchain.
+        node: [22, 24]
 
     steps:
       - uses: actions/checkout@v4
@@ -48,6 +50,43 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Upload build output
+        if: matrix.node == 22
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: packages/*/dist
+          retention-days: 1
+
+  floor:
+    name: Runtime floor on Node ${{ matrix.node }}
+    needs: verify
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # The lowest versions the packages claim to support. A declared floor
+        # nobody tests is just a number in a manifest.
+        node: [18, 20]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Download build output
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: packages
+
+      # No install: @inksign/core has zero runtime dependencies, so the built
+      # output runs as-is. That is the claim being checked.
+      - name: Exercise the built package
+        run: node scripts/smoke.mjs
 
   coverage:
     name: Coverage
