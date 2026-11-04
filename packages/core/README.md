@@ -2,7 +2,7 @@
 
 The InkSign engine: envelopes, recipient routing, field logic, signing sessions and tamper-evident audit trails. **Zero runtime dependencies**, no framework, no DOM.
 
-Part of [InkSign](https://github.com/harshwhql/inksign). 15.2 kB minified and gzipped, and it tree-shakes: importing only the builder, store, session and validation costs 12.5 kB.
+Part of [InkSign](https://github.com/harshwhql/inksign). 15.0 kB minified and gzipped, and it tree-shakes: importing only the builder, store, session and validation costs 12.9 kB.
 
 ```bash
 npm install @inksign/core

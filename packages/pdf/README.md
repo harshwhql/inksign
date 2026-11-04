@@ -1,6 +1,6 @@
 # @inksign/pdf
 
-PDF concerns for [InkSign](https://github.com/harshwhql/inksign): coordinate geometry, page rendering, anchor placement, and flattening captured values into a final document. 8.3 kB minified and gzipped.
+PDF concerns for [InkSign](https://github.com/harshwhql/inksign): coordinate geometry, page rendering, anchor placement, and flattening captured values into a final document. 8.6 kB minified and gzipped.
 
 ```bash
 npm install @inksign/pdf

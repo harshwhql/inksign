@@ -54,12 +54,18 @@ InkSign is the signing flow as a library. You keep the documents, the database, 
 
 | Package                              | Size (min+gzip) | What it is                                                                                         |
 | ------------------------------------ | --------------- | -------------------------------------------------------------------------------------------------- |
-| [`@inksign/core`](./packages/core)   | 15.2 kB         | The engine. Envelopes, routing, field logic, sessions, audit trail. **Zero runtime dependencies.** |
-| [`@inksign/pdf`](./packages/pdf)     | 8.3 kB          | Rendering, coordinate geometry, anchor placement, field flattening.                                |
+| [`@inksign/core`](./packages/core)   | 15.0 kB         | The engine. Envelopes, routing, field logic, sessions, audit trail. **Zero runtime dependencies.** |
+| [`@inksign/pdf`](./packages/pdf)     | 8.6 kB          | Rendering, coordinate geometry, anchor placement, field flattening.                                |
 | [`@inksign/ui`](./packages/ui)       | 8.9 kB          | Signature capture, layout, theming, web components. No framework.                                  |
 | [`@inksign/react`](./packages/react) | 9.5 kB          | React hooks and components.                                                                        |
 
-Sizes are measured, not estimated, and everything tree-shakes: importing only the envelope builder, store, session and validation from core costs 12.5 kB, and the signature pad on its own is 3.2 kB.
+Sizes are measured by `size-limit`, which runs in CI against a budget so they cannot drift upwards unnoticed. Everything tree-shakes:
+
+| Importing only                                                          | Cost    |
+| ----------------------------------------------------------------------- | ------- |
+| `createViewport`, `fieldToCss`, `fieldToPdf`, `FieldIndex`              | 731 B   |
+| `SignaturePad`, `getStrokePath`                                         | 3.2 kB  |
+| `createEnvelope`, `EnvelopeStore`, `SigningSession`, `validateEnvelope` | 12.9 kB |
 
 `pdfjs-dist` and `pdf-lib` are optional peer dependencies of `@inksign/pdf`, imported lazily so they land in their own chunk, fetched only when a page is rendered or a document is written. Code that only needs the geometry helpers pulls in neither. You can also supply either module yourself with `setPdfJs` or `setPdfLib`, which is how you pin a build, load from a CDN, or use pdf.js in Node, where it needs its legacy build.
 

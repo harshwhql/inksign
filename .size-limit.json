@@ -1,0 +1,52 @@
+[
+  {
+    "name": "@inksign/core",
+    "path": "packages/core/dist/index.js",
+    "limit": "17 kB",
+    "gzip": true
+  },
+  {
+    "name": "@inksign/core (builder, store, session, validation only)",
+    "path": "packages/core/dist/index.js",
+    "import": "{ createEnvelope, EnvelopeStore, SigningSession, validateEnvelope }",
+    "limit": "14 kB",
+    "gzip": true
+  },
+  {
+    "name": "@inksign/pdf",
+    "path": "packages/pdf/dist/index.js",
+    "limit": "10 kB",
+    "gzip": true,
+    "ignore": ["@inksign/core", "pdfjs-dist", "pdf-lib"]
+  },
+  {
+    "name": "@inksign/pdf (geometry only)",
+    "path": "packages/pdf/dist/index.js",
+    "import": "{ createViewport, fieldToCss, fieldToPdf, FieldIndex }",
+    "limit": "3 kB",
+    "gzip": true,
+    "ignore": ["@inksign/core", "pdfjs-dist", "pdf-lib"]
+  },
+  {
+    "name": "@inksign/ui",
+    "path": "packages/ui/dist/index.js",
+    "limit": "11 kB",
+    "gzip": true,
+    "ignore": ["@inksign/core", "@inksign/pdf"]
+  },
+  {
+    "name": "@inksign/ui (signature pad only)",
+    "path": "packages/ui/dist/index.js",
+    "import": "{ SignaturePad, getStrokePath }",
+    "limit": "5 kB",
+    "gzip": true,
+    "ignore": ["@inksign/core", "@inksign/pdf"]
+  },
+  {
+    "name": "@inksign/react",
+    "path": "packages/react/dist/index.js",
+    "limit": "12 kB",
+    "gzip": true,
+    "ignore": ["react", "react-dom", "@inksign/core", "@inksign/pdf", "@inksign/ui"]
+  }
+]

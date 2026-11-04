@@ -54,6 +54,11 @@ jobs:
       - name: Test
         run: npm test
 
+      # Bundle size is a feature here, so it is checked rather than hoped for.
+      - name: Size budget
+        if: matrix.node == 22
+        run: npm run size
+
       - name: Upload build output
         if: matrix.node == 22
         uses: actions/upload-artifact@v4
