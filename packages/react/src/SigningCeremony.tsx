@@ -1,4 +1,4 @@
-import type { FieldId, InkSignature } from '@inksign/core'
+import type { InkSignature } from '@inksign/core'
 import { InkSignError } from '@inksign/core'
 import { announce, describeProgress, trapFocus } from '@inksign/ui'
 import { type ReactNode, useCallback, useEffect, useRef, useState } from 'react'
@@ -27,8 +27,6 @@ export interface SigningCeremonyProps {
   onCompleted?: (() => void) | undefined
   onDeclined?: ((reason: string) => void) | undefined
   onError?: ((error: InkSignError) => void) | undefined
-  /** Field the signer is currently on, for highlighting. */
-  activeField?: FieldId | undefined
   className?: string | undefined
 }
 
