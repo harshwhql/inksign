@@ -1,0 +1,9 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/pdf" },
+    { "path": "./packages/ui" },
+    { "path": "./packages/react" }
+  ]
+}

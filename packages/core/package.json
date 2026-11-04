@@ -1,0 +1,46 @@
+{
+  "name": "@inksign/core",
+  "version": "0.1.0",
+  "description": "Framework-agnostic electronic signature engine: envelopes, recipient routing, field logic, signing sessions and tamper-evident audit trails. Zero runtime dependencies.",
+  "license": "MIT",
+  "author": "harshwhql",
+  "homepage": "https://github.com/harshwhql/inksign#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harshwhql/inksign.git",
+    "directory": "packages/core"
+  },
+  "bugs": "https://github.com/harshwhql/inksign/issues",
+  "keywords": [
+    "electronic-signature",
+    "esignature",
+    "e-sign",
+    "digital-signature",
+    "docusign-alternative",
+    "envelope",
+    "signing",
+    "audit-trail",
+    "headless"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "files": ["dist", "README.md", "LICENSE"],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": { "access": "public", "provenance": true },
+  "engines": { "node": ">=18.18" },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --build"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "name": "@inksign/pdf",
+  "version": "0.1.0",
+  "description": "PDF rendering, coordinate geometry, anchor placement and field flattening for InkSign. Renders pages efficiently and stamps signatures into a tamper-evident output.",
+  "license": "MIT",
+  "author": "harshwhql",
+  "homepage": "https://github.com/harshwhql/inksign#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harshwhql/inksign.git",
+    "directory": "packages/pdf"
+  },
+  "bugs": "https://github.com/harshwhql/inksign/issues",
+  "keywords": [
+    "pdf",
+    "pdf-rendering",
+    "electronic-signature",
+    "esignature",
+    "pdf-forms",
+    "pdf-lib",
+    "pdfjs",
+    "flatten"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "files": ["dist", "README.md", "LICENSE"],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": { "access": "public", "provenance": true },
+  "engines": { "node": ">=18.18" },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --build"
+  },
+  "dependencies": {
+    "@inksign/core": "0.1.0"
+  },
+  "peerDependencies": {
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": ">=4.0.0 <6"
+  },
+  "peerDependenciesMeta": {
+    "pdfjs-dist": { "optional": true },
+    "pdf-lib": { "optional": true }
+  },
+  "devDependencies": {
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.4.149"
+  }
+}

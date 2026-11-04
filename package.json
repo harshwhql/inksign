@@ -1,0 +1,39 @@
+{
+  "name": "inksign-monorepo",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@11.12.1",
+  "engines": {
+    "node": ">=18.18"
+  },
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "dev": "npm run dev --workspaces --if-present",
+    "clean": "rimraf packages/*/dist packages/*/.tsbuildinfo",
+    "typecheck": "tsc --build tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "fix": "biome check --write .",
+    "size": "size-limit",
+    "release": "npm run build && changeset publish",
+    "version": "changeset version && npm install --package-lock-only"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.0",
+    "@changesets/cli": "^2.29.0",
+    "@size-limit/preset-small-lib": "^11.2.0",
+    "@types/node": "^24.0.0",
+    "rimraf": "^6.0.1",
+    "size-limit": "^11.2.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}
