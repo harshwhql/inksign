@@ -1,6 +1,6 @@
 {
   "name": "@inksign/svelte",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Svelte bindings for InkSign: keyed stores and actions for signature capture, document viewing and the signing ceremony. No compiler needed, works in Svelte 3, 4 and 5.",
   "license": "MIT",
   "author": "harshwhql",
@@ -53,9 +53,9 @@
     "typecheck": "tsc --build"
   },
   "dependencies": {
-    "@inksign/core": "0.1.0",
-    "@inksign/pdf": "0.1.0",
-    "@inksign/ui": "0.1.0"
+    "@inksign/core": "0.2.0",
+    "@inksign/pdf": "0.2.0",
+    "@inksign/ui": "0.2.0"
   },
   "peerDependencies": {
     "svelte": ">=3.55 <6"

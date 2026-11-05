@@ -1,6 +1,6 @@
 {
   "name": "@inksign/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Framework-agnostic electronic signature engine: envelopes, recipient routing, field logic, signing sessions and tamper-evident audit trails. Zero runtime dependencies.",
   "license": "MIT",
   "author": "harshwhql",

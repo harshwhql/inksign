@@ -1,6 +1,6 @@
 {
   "name": "@inksign/react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React bindings for InkSign: hooks and components for signature capture, document viewing and the signing ceremony, with fine-grained subscriptions so one field does not re-render the page.",
   "license": "MIT",
   "author": "harshwhql",
@@ -53,9 +53,9 @@
     "typecheck": "tsc --build"
   },
   "dependencies": {
-    "@inksign/core": "0.1.0",
-    "@inksign/pdf": "0.1.0",
-    "@inksign/ui": "0.1.0"
+    "@inksign/core": "0.2.0",
+    "@inksign/pdf": "0.2.0",
+    "@inksign/ui": "0.2.0"
   },
   "peerDependencies": {
     "react": ">=18"

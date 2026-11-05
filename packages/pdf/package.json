@@ -1,6 +1,6 @@
 {
   "name": "@inksign/pdf",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "PDF rendering, coordinate geometry, anchor placement and field flattening for InkSign. Renders pages efficiently and stamps signatures into a tamper-evident output.",
   "license": "MIT",
   "author": "harshwhql",
@@ -53,7 +53,7 @@
     "typecheck": "tsc --build"
   },
   "dependencies": {
-    "@inksign/core": "0.1.0"
+    "@inksign/core": "0.2.0"
   },
   "peerDependencies": {
     "pdf-lib": "^1.17.1",
