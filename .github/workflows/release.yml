@@ -38,6 +38,8 @@ jobs:
           npm run build
           npm run typecheck:only
           npm test
+          npm run size
+          npm run verify:packaging
 
       # Opens a pull request that bumps versions and writes changelogs when
       # changesets are pending. Publishes when that pull request is merged.

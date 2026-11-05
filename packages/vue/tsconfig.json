@@ -1,12 +1,22 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "./dist/types",
+    "outDir": "./.tsc",
     "rootDir": "./src",
-    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+    "tsBuildInfoFile": "./.tsc/tsbuildinfo",
     "types": ["node"]
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "test"],
-  "references": [{ "path": "../core" }, { "path": "../pdf" }, { "path": "../ui" }]
+  "references": [
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../pdf"
+    },
+    {
+      "path": "../ui"
+    }
+  ]
 }

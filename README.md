@@ -215,7 +215,7 @@ npm test
 
 Development needs Node 22 or later, which is what `pdfjs-dist` and the Vite plugin require. The published packages support Node 20, and CI verifies that separately by running the built output on a clean Node 20 with no install.
 
-`npm run lint` runs Biome, `npm run typecheck` builds then checks the project references, and `npm run size` checks the bundle budgets. The React example lives in `examples/react-basic`:
+`npm run lint` runs Biome, `npm run typecheck` builds then checks the project references, `npm run size` checks the bundle budgets, and `npm run verify:packaging` packs real tarballs, installs them in a throwaway project and imports every package through its published entry points. That last one catches what the test suite cannot: the tests import source files, so they never exercise the `exports` map, the `files` list, or whether the declaration file the manifest points at was actually emitted.
 
 ```bash
 npm run dev -w @inksign/example-react-basic

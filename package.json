@@ -13,7 +13,7 @@
   "scripts": {
     "build": "npm run build -w @inksign/core && npm run build -w @inksign/pdf && npm run build -w @inksign/ui && npm run build -w @inksign/react && npm run build -w @inksign/vue && npm run build -w @inksign/svelte",
     "dev": "npm run dev --workspaces --if-present",
-    "clean": "rimraf packages/*/dist packages/*/.tsbuildinfo",
+    "clean": "rimraf packages/*/dist packages/*/.tsc",
     "typecheck": "npm run build && tsc --build tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -25,7 +25,8 @@
     "release": "npm run build && changeset publish",
     "version": "changeset version && npm install --package-lock-only",
     "smoke": "node scripts/smoke.mjs",
-    "typecheck:only": "tsc --build tsconfig.json"
+    "typecheck:only": "tsc --build tsconfig.json",
+    "verify:packaging": "node scripts/verify-packaging.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.0",
