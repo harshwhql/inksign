@@ -26,7 +26,8 @@
     "version": "changeset version && npm install --package-lock-only",
     "smoke": "node scripts/smoke.mjs",
     "typecheck:only": "tsc --build tsconfig.json",
-    "verify:packaging": "node scripts/verify-packaging.mjs"
+    "verify:packaging": "node scripts/verify-packaging.mjs",
+    "publish:all": "npm publish --workspaces --access public --provenance=false"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.0",
