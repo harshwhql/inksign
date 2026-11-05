@@ -192,7 +192,7 @@ One gap worth naming: the document itself is rasterized to a canvas, so its text
 
 ## Status
 
-Version 0.1.0. The API may change before 1.0, and changes will go through [changesets](https://github.com/changesets/changesets) with a changelog.
+Version 0.1.0, published to npm. The API may change before 1.0, and changes go through [changesets](https://github.com/changesets/changesets) with a changelog. See [RELEASING.md](./RELEASING.md).
 
 441 tests across the six packages, covering the routing and lifecycle rules, conditional field logic, coordinate round-trips through every rotation, hash chain tamper detection, real PDF writes, the render-isolation claim in all three adapters, an end-to-end pipeline that takes a blank PDF through anchor placement, authentication, consent, signing, flattening, sealing and verification, and a server-rendering check that every package imports without a DOM.
 
